@@ -1,5 +1,5 @@
 # Final-Project
-Download the attached python files <br/>
+Download the attached python files. <br/>
 Make sure you have pygame installed. If not, then type "python -m pip install pygame --user" in the command window. <br/>
 How to Play this Game: <br/>
 1. Run the "Gomoku.py" in your interpreter. <br/>
