@@ -7,25 +7,25 @@ from pygame.locals import *
 import pygame.gfxdraw
 from checkerboard import Checkerboard, BLACK_CHESSMAN, WHITE_CHESSMAN, offset, Point
 
-SIZE = 30  # Distance between each point on the grid.
-Line_Points = 19  # Number of points on each row/column
-Outer_Width = 20  # Out width of the grid
-Border_Width = 4  # Width of the frame
-Inside_Width = 4  # Distance between the frame and the grid
-Border_Length = SIZE * (Line_Points - 1) + Inside_Width * 2 + Border_Width  # Length of the frame
-Start_X = Start_Y = Outer_Width + int(Border_Width / 2) + Inside_Width  # Starting point of the grid (upper left)
-SCREEN_HEIGHT = SIZE * (Line_Points - 1) + Outer_Width * 2 + Border_Width + Inside_Width * 2  # Height of game screen
-SCREEN_WIDTH = SCREEN_HEIGHT + 200  # Width of game screen
+size = 30  # Distance between each point on the grid.
+num_points = 19  # Number of points on each row/column
+outer_width = 20  # Out width of the grid
+border_width = 4  # Width of the frame
+inside_width = 4  # Distance between the frame and the grid
+border_length = size * (num_points - 1) + inside_width * 2 + border_width  # Length of the frame
+start_X = start_Y = outer_width + int(border_width / 2) + inside_width  # Starting point of the grid (upper left)
+screen_height = size * (num_points - 1) + outer_width * 2 + border_width + inside_width * 2  # Height of game screen
+screen_width = screen_height + 200  # Width of game screen
 
-Stone_Radius = SIZE // 2 - 3  # Radius of a piece
-Stone_Radius2 = SIZE // 2 + 3
-Checkerboard_Color = (0xE3, 0x92, 0x65)  # Color of the grid
-BLACK_COLOR = (0, 0, 0)
+Piece_Radius = size // 2 - 3  # Radius of a piece
+Piece_Radius2 = size // 2 + 3
+Checkerboard_Color = (255, 255, 255)  # Color of the grid
+Indigo_Color = (75, 0, 130)
 WHITE_COLOR = (255, 255, 255)
 RED_COLOR = (200, 30, 30)
-BLUE_COLOR = (30, 30, 200)
+Green_Color = (0, 128, 0)
 
-RIGHT_INFO_POS_X = SCREEN_HEIGHT + Stone_Radius2 * 2 + 10
+RIGHT_INFO_POS_X = screen_height + Piece_Radius2 * 2 + 10
 
 
 def print_text(screen, font, x, y, text, fcolor=(255, 255, 255)):
@@ -35,17 +35,17 @@ def print_text(screen, font, x, y, text, fcolor=(255, 255, 255)):
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption('Gomoku')
 
-    font1 = pygame.font.SysFont('SimHei', 32)
-    font2 = pygame.font.SysFont('SimHei', 72)
+    font1 = pygame.font.SysFont('Arial', 35)
+    font2 = pygame.font.SysFont('Arial', 65)
     fwidth, fheight = font2.size('Black Wins')
 
-    checkerboard = Checkerboard(Line_Points)
+    checkerboard = Checkerboard(num_points)
     cur_runner = BLACK_CHESSMAN
     winner = None
-    computer = AI(Line_Points, WHITE_CHESSMAN)
+    computer = AI(num_points, WHITE_CHESSMAN)
 
     black_win_count = 0
     white_win_count = 0
@@ -59,8 +59,8 @@ def main():
                     if winner is not None:
                         winner = None
                         cur_runner = BLACK_CHESSMAN
-                        checkerboard = Checkerboard(Line_Points)
-                        computer = AI(Line_Points, WHITE_CHESSMAN)
+                        checkerboard = Checkerboard(num_points)
+                        computer = AI(num_points, WHITE_CHESSMAN)
             elif event.type == MOUSEBUTTONDOWN:
                 if winner is None:
                     pressed_array = pygame.mouse.get_pressed()
@@ -97,7 +97,7 @@ def main():
         _draw_left_info(screen, font1, cur_runner, black_win_count, white_win_count)
 
         if winner:
-            print_text(screen, font2, (SCREEN_WIDTH - fwidth)//2, (SCREEN_HEIGHT - fheight)//2, winner.Name + 'Wins', RED_COLOR)
+            print_text(screen, font2, (screen_width - fwidth)//2, (screen_height - fheight)//2, winner.Name + 'Wins', RED_COLOR)
 
         pygame.display.flip()
 
@@ -114,17 +114,17 @@ def _draw_checkerboard(screen):
     # Fill the background color of the board
     screen.fill(Checkerboard_Color)
     # Draw the frame lines
-    pygame.draw.rect(screen, BLACK_COLOR, (Outer_Width, Outer_Width, Border_Length, Border_Length), Border_Width)
+    pygame.draw.rect(screen, Indigo_Color, (outer_width, outer_width, border_length, border_length), border_width)
     # Draw the grid
-    for i in range(Line_Points):
-        pygame.draw.line(screen, BLACK_COLOR,
-                         (Start_Y, Start_Y + SIZE * i),
-                         (Start_Y + SIZE * (Line_Points - 1), Start_Y + SIZE * i),
+    for i in range(num_points):
+        pygame.draw.line(screen, Indigo_Color,
+                         (start_Y, start_Y + size * i),
+                         (start_Y + size * (num_points - 1), start_Y + size * i),
                          1)
-    for j in range(Line_Points):
-        pygame.draw.line(screen, BLACK_COLOR,
-                         (Start_X + SIZE * j, Start_X),
-                         (Start_X + SIZE * j, Start_X + SIZE * (Line_Points - 1)),
+    for j in range(num_points):
+        pygame.draw.line(screen, Indigo_Color,
+                         (start_X + size * j, start_X),
+                         (start_X + size * j, start_X + size * (num_points - 1)),
                          1)
     # Draw the four corner centers and the very center
     for i in (3, 9, 15):
@@ -134,50 +134,50 @@ def _draw_checkerboard(screen):
             else:
                 radius = 3
             # pygame.draw.circle(screen, BLACK, (Start_X + SIZE * i, Start_Y + SIZE * j), radius)
-            pygame.gfxdraw.aacircle(screen, Start_X + SIZE * i, Start_Y + SIZE * j, radius, BLACK_COLOR)
-            pygame.gfxdraw.filled_circle(screen, Start_X + SIZE * i, Start_Y + SIZE * j, radius, BLACK_COLOR)
+            pygame.gfxdraw.aacircle(screen, start_X + size * i, start_Y + size * j, radius, Indigo_Color)
+            pygame.gfxdraw.filled_circle(screen, start_X + size * i, start_Y + size * j, radius, Indigo_Color)
 
 
 # Draw the piece
 def _draw_chessman(screen, point, stone_color):
     # pygame.draw.circle(screen, stone_color, (Start_X + SIZE * point.X, Start_Y + SIZE * point.Y), Stone_Radius)
-    pygame.gfxdraw.aacircle(screen, Start_X + SIZE * point.X, Start_Y + SIZE * point.Y, Stone_Radius, stone_color)
-    pygame.gfxdraw.filled_circle(screen, Start_X + SIZE * point.X, Start_Y + SIZE * point.Y, Stone_Radius, stone_color)
+    pygame.gfxdraw.aacircle(screen, start_X + size * point.X, start_Y + size* point.Y, Piece_Radius, stone_color)
+    pygame.gfxdraw.filled_circle(screen, start_X + size * point.X, start_Y + size * point.Y, Piece_Radius, stone_color)
 
 
 # Show the left-hand-side information
 def _draw_left_info(screen, font, cur_runner, black_win_count, white_win_count):
-    _draw_chessman_pos(screen, (SCREEN_HEIGHT + Stone_Radius2, Start_X + Stone_Radius2), BLACK_CHESSMAN.Color)
-    _draw_chessman_pos(screen, (SCREEN_HEIGHT + Stone_Radius2, Start_X + Stone_Radius2 * 4), WHITE_CHESSMAN.Color)
+    _draw_chessman_pos(screen, (screen_height + Piece_Radius2, start_X + Piece_Radius2), BLACK_CHESSMAN.Color)
+    _draw_chessman_pos(screen, (screen_height + Piece_Radius2, start_X + Piece_Radius2 * 4), WHITE_CHESSMAN.Color)
 
-    print_text(screen, font, RIGHT_INFO_POS_X, Start_X + 3, 'Player', BLUE_COLOR)
-    print_text(screen, font, RIGHT_INFO_POS_X, Start_X + Stone_Radius2 * 3 + 3, 'Bot', BLUE_COLOR)
+    print_text(screen, font, RIGHT_INFO_POS_X, start_X + 3, 'Player', Green_Color)
+    print_text(screen, font, RIGHT_INFO_POS_X, start_X + Piece_Radius2 * 3 + 3, 'Bot', Green_Color)
 
-    print_text(screen, font, SCREEN_HEIGHT, SCREEN_HEIGHT - Stone_Radius2 * 8, 'Progress：', BLUE_COLOR)
-    _draw_chessman_pos(screen, (SCREEN_HEIGHT + Stone_Radius2, SCREEN_HEIGHT - int(Stone_Radius2 * 4.5)), BLACK_CHESSMAN.Color)
-    _draw_chessman_pos(screen, (SCREEN_HEIGHT + Stone_Radius2, SCREEN_HEIGHT - Stone_Radius2 * 2), WHITE_CHESSMAN.Color)
-    print_text(screen, font, RIGHT_INFO_POS_X, SCREEN_HEIGHT - int(Stone_Radius2 * 5.5) + 3, f'{black_win_count} Wins', BLUE_COLOR)
-    print_text(screen, font, RIGHT_INFO_POS_X, SCREEN_HEIGHT - Stone_Radius2 * 3 + 3, f'{white_win_count} Wins', BLUE_COLOR)
+    print_text(screen, font, screen_height, screen_height - Piece_Radius2 * 8, 'Progress:', Green_Color)
+    _draw_chessman_pos(screen, (screen_height + Piece_Radius2, screen_height - int(Piece_Radius2 * 4.5)), BLACK_CHESSMAN.Color)
+    _draw_chessman_pos(screen, (screen_height + Piece_Radius2, screen_height - Piece_Radius2 * 2), WHITE_CHESSMAN.Color)
+    print_text(screen, font, RIGHT_INFO_POS_X, screen_height - int(Piece_Radius2 * 5.5) + 3, f'{black_win_count} Wins', Green_Color)
+    print_text(screen, font, RIGHT_INFO_POS_X, screen_height - Piece_Radius2 * 3 + 3, f'{white_win_count} Wins', Green_Color)
 
 
 def _draw_chessman_pos(screen, pos, stone_color):
-    pygame.gfxdraw.aacircle(screen, pos[0], pos[1], Stone_Radius2, stone_color)
-    pygame.gfxdraw.filled_circle(screen, pos[0], pos[1], Stone_Radius2, stone_color)
+    pygame.gfxdraw.aacircle(screen, pos[0], pos[1], Piece_Radius2, stone_color)
+    pygame.gfxdraw.filled_circle(screen, pos[0], pos[1], Piece_Radius2, stone_color)
 
 
 # Return to the game coordinate based on the location of the mouse pointer
 def _get_clickpoint(click_pos):
-    pos_x = click_pos[0] - Start_X
-    pos_y = click_pos[1] - Start_Y
-    if pos_x < -Inside_Width or pos_y < -Inside_Width:
+    pos_x = click_pos[0] - start_X
+    pos_y = click_pos[1] - start_Y
+    if pos_x < -inside_width or pos_y < -inside_width:
         return None
-    x = pos_x // SIZE
-    y = pos_y // SIZE
-    if pos_x % SIZE > Stone_Radius:
+    x = pos_x // size
+    y = pos_y // size
+    if pos_x % size > Piece_Radius:
         x += 1
-    if pos_y % SIZE > Stone_Radius:
+    if pos_y % size > Piece_Radius:
         y += 1
-    if x >= Line_Points or y >= Line_Points:
+    if x >= num_points or y >= num_points:
         return None
 
     return Point(x, y)
