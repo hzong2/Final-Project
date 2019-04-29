@@ -1,7 +1,7 @@
 # Final-Project
 Han Zong, Han Zhang, Zhenqin Wang <br/>
 </br>
-Download the attached python files. Run Gomoku.py in your interpreter.<br/>
+Download the attached python files. Unzip the file.<br/>
 Make sure you have pygame installed. If not, then type "python -m pip install pygame --user" in the command window. <br/>
 How to Play this Game: <br/>
 1. Run the "Gomoku.py" in your interpreter. <br/>
