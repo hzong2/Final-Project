@@ -1,4 +1,5 @@
 # Final-Project
+Han Zong, Han Zhan, Zhenqin Wang <br/>
 Download the attached python files. <br/>
 Make sure you have pygame installed. If not, then type "python -m pip install pygame --user" in the command window. <br/>
 How to Play this Game: <br/>
