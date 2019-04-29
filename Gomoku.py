@@ -142,7 +142,7 @@ def _draw_board(screen):
                 radius = 5
             else:
                 radius = 3
-            # pygame.draw.circle(screen, BLACK, (Start_X + SIZE * i, Start_Y + SIZE * j), radius)
+            # Draw a circle and then color-fill it
             pygame.gfxdraw.aacircle(screen, start_X + size * i, start_Y + size * j, radius, Indigo_Color)
             pygame.gfxdraw.filled_circle(screen, start_X + size * i, start_Y + size * j, radius, Indigo_Color)
 
@@ -165,7 +165,7 @@ def _draw_left_info(screen, font, cur_runner, black_win_count, white_win_count):
 
 # Draw the piece
 def _draw_piece(screen, point, stone_color):
-    # pygame.draw.circle(screen, stone_color, (Start_X + SIZE * point.X, Start_Y + SIZE * point.Y), Stone_Radius)
+    # Draw a circle and then color-fill it
     pygame.gfxdraw.aacircle(screen, start_X + size * point.X, start_Y + size* point.Y, Piece_Radius, stone_color)
     pygame.gfxdraw.filled_circle(screen, start_X + size * point.X, start_Y + size * point.Y, Piece_Radius, stone_color)
 
