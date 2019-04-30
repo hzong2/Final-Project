@@ -8,4 +8,5 @@ How to Play this Game: <br/>
 1. Run the "Gomoku.py" in your interpreter. <br/>
 2. You are Player and dropping the black pieces. The Bot are dropping the white pieces.<br/>
 3. The goal is to get 5 consecutive black pieces horizontally, vertically, or diagnonally before the Bot does. <br/>
+4. Press ENTER to start the game. </br>
 Simple, right? Let's go beat the Bot!
